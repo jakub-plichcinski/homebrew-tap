@@ -3,7 +3,9 @@
 class KairosOllama < Formula
   desc "Ollama configured for KAIROS MCP local embeddings"
   homepage "https://ollama.com"
+  url "https://ollama.com"
   version "0.32.5"
+  sha256 ":" # Dummy checksum for wrapper formula
   license "MIT"
 
   depends_on "ollama"
