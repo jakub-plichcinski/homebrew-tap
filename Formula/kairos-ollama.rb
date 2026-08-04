@@ -5,7 +5,7 @@ class KairosOllama < Formula
   homepage "https://ollama.com"
   url "https://ollama.com"
   version "0.32.5"
-  sha256 "0000000000000000000000000000000000000000000000000000000000000000" # Dummy checksum for wrapper formula
+  sha256 "1ee0a5d256d46de662cb77949d2acd25609b0140dbbf757bb914807d1f710cc8" # Checksum of ollama.com homepage
   license "MIT"
 
   depends_on "ollama"
