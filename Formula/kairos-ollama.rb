@@ -19,10 +19,25 @@ class KairosOllama < Formula
       exec "#{formula_opt_bin("ollama")}/ollama" "$@"
     EOS
     chmod 0755, bin/"kairos-ollama"
+
+    # Service entrypoint: serve, then ensure the embedding model is present
+    (libexec/"start.sh").write <<~EOS
+      #!/bin/bash
+      OLLAMA=#{formula_opt_bin("ollama")}/ollama
+      "$OLLAMA" serve &
+      SERVE_PID=$!
+      for _ in $(seq 1 30); do
+        curl -sf http://127.0.0.1:11435/ >/dev/null 2>&1 && break
+        sleep 1
+      done
+      "$OLLAMA" pull nomic-embed-text || echo "Model pull failed; retry on next start"
+      wait "$SERVE_PID"
+    EOS
+    chmod 0755, libexec/"start.sh"
   end
 
   service do
-    run [opt_bin/"kairos-ollama", "serve"]
+    run [opt_libexec/"start.sh"]
     keep_alive true
     environment_variables \
       OLLAMA_HOST:   "127.0.0.1:11435",
@@ -31,12 +46,9 @@ class KairosOllama < Formula
     error_log_path var/"log/kairos-ollama/kairos-ollama.err.log"
   end
 
-  def post_install
-    (var/"kairos-ollama/models").mkpath
-    (var/"log/kairos-ollama").mkpath
-
-    # Pull nomic-embed-text model for local embeddings
-    system "#{bin}/kairos-ollama", "pull", "nomic-embed-text"
+  post_install_steps do
+    mkdir_p "kairos-ollama/models"
+    mkdir_p "log/kairos-ollama"
   end
 
   def caveats
