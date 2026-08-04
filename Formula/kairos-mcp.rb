@@ -6,7 +6,8 @@ class KairosMcp < Formula
   sha256 "c8d3eae160a892e32837db3dcae515e843e5383fef52b8141940c8bcf8b6d59f"
   license "MIT"
 
-  depends_on "jakub-plichcinski/tap/qdrant"
+  depends_on "jakub-plichcinski/tap/kairos-qdrant"
+  depends_on "jakub-plichcinski/tap/kairos-ollama"
   depends_on "node" => ">=24"
 
   def install
@@ -21,7 +22,8 @@ class KairosMcp < Formula
     log_path var/"log/kairos-mcp/kairos-mcp.log"
     error_log_path var/"log/kairos-mcp/kairos-mcp.err.log"
     environment_variables \
-      QDRANT_URL:  "http://127.0.0.1:6333",
+      QDRANT_URL:  "http://127.0.0.1:6335",
+      OLLAMA_URL:  "http://127.0.0.1:11435",
       SERVER_PORT: "3000"
   end
 
@@ -40,14 +42,20 @@ class KairosMcp < Formula
         TRANSPORT_TYPE=http
 
         # Qdrant (vector database)
-        QDRANT_URL=http://127.0.0.1:6333
+        QDRANT_URL=http://127.0.0.1:6335
         QDRANT_COLLECTION=kairos
 
-        # Embedding (choose one: openai, local)
-        EMBEDDING_PROVIDER=openai
+        # Ollama (local embeddings - no OpenAI needed)
+        EMBEDDING_PROVIDER=ollama
+        OLLAMA_URL=http://127.0.0.1:11435
+        OLLAMA_EMBEDDING_MODEL=nomic-embed-text
+        EMBEDDING_DIMENSION=768
+
+        # OpenAI (optional, if not using local embeddings)
+        # EMBEDDING_PROVIDER=openai
         # OPENAI_API_KEY=your-key-here
-        OPENAI_EMBEDDING_MODEL=text-embedding-3-small
-        EMBEDDING_DIMENSION=1536
+        # OPENAI_EMBEDDING_MODEL=text-embedding-3-small
+        # EMBEDDING_DIMENSION=1536
 
         # Auth (optional, disabled by default)
         AUTH_ENABLED=false
@@ -63,11 +71,12 @@ class KairosMcp < Formula
         #{etc}/kairos-mcp/.env
 
       Required settings:
-        - OPENAI_API_KEY (if using OpenAI embeddings)
-        - QDRANT_URL (default: http://127.0.0.1:6333)
+        - QDRANT_URL (default: http://127.0.0.1:6335)
+        - OLLAMA_URL (default: http://127.0.0.1:11435)
 
       Start dependencies:
-        brew services start jakub-plichcinski/tap/qdrant
+        brew services start jakub-plichcinski/tap/kairos-qdrant
+        brew services start jakub-plichcinski/tap/kairos-ollama
 
       Start KAIROS MCP:
         brew services start jakub-plichcinski/tap/kairos-mcp
