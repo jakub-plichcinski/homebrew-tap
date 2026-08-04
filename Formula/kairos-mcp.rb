@@ -1,9 +1,9 @@
 class KairosMcp < Formula
   desc "MCP server for agent automation and persistent memory"
-  homepage "https://github.com/debian777/kairos-mcp"
-  url "https://registry.npmjs.org/@debian777/kairos-mcp/-/kairos-mcp-4.8.1.tgz"
-  version "4.8.1"
-  sha256 "0c847822b742843e5c4636dd518f9f4d5b1e5ee404e194cd9da8e0018c6968a9"
+  homepage "https://github.com/jakub-plichcinski/kairos-mcp"
+  url "https://registry.npmjs.org/@jakub-plichcinski/kairos-mcp/-/kairos-mcp-4.8.3.tgz"
+  version "4.8.3"
+  sha256 "c8d3eae160a892e32837db3dcae515e843e5383fef52b8141940c8bcf8b6d59f"
   license "MIT"
 
   depends_on "jakub-plichcinski/tap/qdrant"
@@ -35,7 +35,7 @@ class KairosMcp < Formula
     unless (etc/"kairos-mcp/.env").exist?
       (etc/"kairos-mcp/.env").write <<~EOS
         # KAIROS MCP Configuration
-        # See: https://github.com/debian777/kairos-mcp
+        # See: https://github.com/jakub-plichcinski/kairos-mcp
 
         # Server
         SERVER_PORT=3300
