@@ -29,13 +29,13 @@ jobs:
         run: |
           for formula in Formula/*.rb; do
             name=$(basename "$formula" .rb)
-            brew audit --strict --tap=${{ github.repository }} "$name" || true
+            brew audit --strict "${{ github.repository_owner }}/tap/$name" || true
           done
 
       - name: Brew install and test
         run: |
           for formula in Formula/*.rb; do
             name=$(basename "$formula" .rb)
-            brew install --tap=${{ github.repository }} "$name"
-            brew test --tap=${{ github.repository }} "$name"
+            brew install "${{ github.repository_owner }}/tap/$name"
+            brew test "${{ github.repository_owner }}/tap/$name"
           done
