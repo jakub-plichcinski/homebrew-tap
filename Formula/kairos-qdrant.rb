@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class KairosQdrant < Formula
   desc "Qdrant configured for KAIROS MCP vector storage"
   homepage "https://qdrant.tech"
@@ -32,18 +34,18 @@ class KairosQdrant < Formula
     keep_alive true
     working_dir var/"kairos-qdrant"
     environment_variables \
-      QDRANT__SERVICE__HTTP_PORT:          "6335",
-      QDRANT__SERVICE__GRPC_PORT:          "6336",
-      QDRANT__STORAGE__STORAGE_PATH:       "#{var/"kairos-qdrant/storage"}",
-      QDRANT__STORAGE__SNAPSHOTS_PATH:     "#{var/"kairos-qdrant/snapshots"}"
+      QDRANT__SERVICE__HTTP_PORT:      "6335",
+      QDRANT__SERVICE__GRPC_PORT:      "6336",
+      QDRANT__STORAGE__STORAGE_PATH:   (var/"kairos-qdrant/storage").to_s,
+      QDRANT__STORAGE__SNAPSHOTS_PATH: (var/"kairos-qdrant/snapshots").to_s
     log_path var/"log/kairos-qdrant/kairos-qdrant.log"
     error_log_path var/"log/kairos-qdrant/kairos-qdrant.err.log"
   end
 
-  def post_install
-    (var/"kairos-qdrant/storage").mkpath
-    (var/"kairos-qdrant/snapshots").mkpath
-    (var/"log/kairos-qdrant").mkpath
+  post_install_steps do
+    mkdir_p "kairos-qdrant/storage"
+    mkdir_p "kairos-qdrant/snapshots"
+    mkdir_p "log/kairos-qdrant"
   end
 
   def caveats

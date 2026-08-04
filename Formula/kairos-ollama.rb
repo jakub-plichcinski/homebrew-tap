@@ -1,9 +1,9 @@
+# frozen_string_literal: true
+
 class KairosOllama < Formula
   desc "Ollama configured for KAIROS MCP local embeddings"
   homepage "https://ollama.com"
-  url "https://github.com/ollama/ollama/archive/refs/tags/v0.32.5.tar.gz"
   version "0.32.5"
-  sha256 "placeholder"
   license "MIT"
 
   depends_on "ollama"
@@ -23,7 +23,7 @@ class KairosOllama < Formula
     keep_alive true
     environment_variables \
       OLLAMA_HOST:   "127.0.0.1:11435",
-      OLLAMA_MODELS: "#{var/"kairos-ollama/models"}"
+      OLLAMA_MODELS: (var/"kairos-ollama/models").to_s
     log_path var/"log/kairos-ollama/kairos-ollama.log"
     error_log_path var/"log/kairos-ollama/kairos-ollama.err.log"
   end

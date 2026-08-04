@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class KairosMcp < Formula
   desc "MCP server for agent automation and persistent memory"
   homepage "https://github.com/jakub-plichcinski/kairos-mcp"
@@ -6,8 +8,8 @@ class KairosMcp < Formula
   sha256 "c8d3eae160a892e32837db3dcae515e843e5383fef52b8141940c8bcf8b6d59f"
   license "MIT"
 
-  depends_on "jakub-plichcinski/tap/kairos-qdrant"
   depends_on "jakub-plichcinski/tap/kairos-ollama"
+  depends_on "jakub-plichcinski/tap/kairos-qdrant"
   depends_on "node" => ">=24"
 
   def install
@@ -32,35 +34,35 @@ class KairosMcp < Formula
     (var/"log/kairos-mcp").mkpath
 
     # Create default config if not present
-    unless (etc/"kairos-mcp/.env").exist?
-      (etc/"kairos-mcp/.env").write <<~EOS
-        # KAIROS MCP Configuration
-        # See: https://github.com/jakub-plichcinski/kairos-mcp
+    return if (etc/"kairos-mcp/.env").exist?
 
-        # Server
-        SERVER_PORT=3000
-        TRANSPORT_TYPE=http
+    (etc/"kairos-mcp/.env").write <<~EOS
+      # KAIROS MCP Configuration
+      # See: https://github.com/jakub-plichcinski/kairos-mcp
 
-        # Qdrant (vector database)
-        QDRANT_URL=http://127.0.0.1:6335
-        QDRANT_COLLECTION=kairos
+      # Server
+      SERVER_PORT=3000
+      TRANSPORT_TYPE=http
 
-        # Ollama (local embeddings - no OpenAI needed)
-        EMBEDDING_PROVIDER=ollama
-        OLLAMA_URL=http://127.0.0.1:11435
-        OLLAMA_EMBEDDING_MODEL=nomic-embed-text
-        EMBEDDING_DIMENSION=768
+      # Qdrant (vector database)
+      QDRANT_URL=http://127.0.0.1:6335
+      QDRANT_COLLECTION=kairos
 
-        # OpenAI (optional, if not using local embeddings)
-        # EMBEDDING_PROVIDER=openai
-        # OPENAI_API_KEY=your-key-here
-        # OPENAI_EMBEDDING_MODEL=text-embedding-3-small
-        # EMBEDDING_DIMENSION=1536
+      # Ollama (local embeddings - no OpenAI needed)
+      EMBEDDING_PROVIDER=ollama
+      OLLAMA_URL=http://127.0.0.1:11435
+      OLLAMA_EMBEDDING_MODEL=nomic-embed-text
+      EMBEDDING_DIMENSION=768
 
-        # Auth (optional, disabled by default)
-        AUTH_ENABLED=false
-      EOS
-    end
+      # OpenAI (optional, if not using local embeddings)
+      # EMBEDDING_PROVIDER=openai
+      # OPENAI_API_KEY=your-key-here
+      # OPENAI_EMBEDDING_MODEL=text-embedding-3-small
+      # EMBEDDING_DIMENSION=1536
+
+      # Auth (optional, disabled by default)
+      AUTH_ENABLED=false
+    EOS
   end
 
   def caveats
