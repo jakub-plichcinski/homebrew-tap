@@ -63,7 +63,6 @@ brew test jakub-plichcinski/tap/kairos-mcp
 
 # Start services
 brew services start jakub-plichcinski/tap/qdrant
-brew services start redis
 brew services start jakub-plichcinski/tap/kairos-mcp
 ```
 
@@ -71,6 +70,5 @@ brew services start jakub-plichcinski/tap/kairos-mcp
 
 kairos-mcp depends on:
 - qdrant (vector database) — port 6333
-- redis (caching/session) — port 6379
 
 Start dependencies before kairos-mcp service.

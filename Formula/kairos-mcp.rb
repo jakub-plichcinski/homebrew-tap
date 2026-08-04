@@ -8,7 +8,6 @@ class KairosMcp < Formula
 
   depends_on "jakub-plichcinski/tap/qdrant"
   depends_on "node" => ">=24"
-  depends_on "redis"
 
   def install
     system "npm", "install", *std_npm_args
@@ -23,7 +22,6 @@ class KairosMcp < Formula
     error_log_path var/"log/kairos-mcp/kairos-mcp.err.log"
     environment_variables \
       QDRANT_URL:  "http://127.0.0.1:6333",
-      REDIS_URL:   "redis://localhost:6379",
       SERVER_PORT: "3300"
   end
 
@@ -44,9 +42,6 @@ class KairosMcp < Formula
         # Qdrant (vector database)
         QDRANT_URL=http://127.0.0.1:6333
         QDRANT_COLLECTION=kairos
-
-        # Redis
-        REDIS_URL=redis://localhost:6379
 
         # Embedding (choose one: openai, local)
         EMBEDDING_PROVIDER=openai
@@ -70,11 +65,9 @@ class KairosMcp < Formula
       Required settings:
         - OPENAI_API_KEY (if using OpenAI embeddings)
         - QDRANT_URL (default: http://127.0.0.1:6333)
-        - REDIS_URL (default: redis://localhost:6379)
 
       Start dependencies:
         brew services start jakub-plichcinski/tap/qdrant
-        brew services start redis
 
       Start KAIROS MCP:
         brew services start jakub-plichcinski/tap/kairos-mcp
