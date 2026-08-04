@@ -17,16 +17,17 @@ class KairosQdrant < Formula
   end
 
   def install
-    bin.install "qdrant"
+    libexec.install "qdrant"
     # Wrapper script with isolated configuration
-    bin.write_exec_script <<~EOS
+    (bin/"kairos-qdrant").write <<~EOS
       #!/bin/bash
       export QDRANT__SERVICE__HTTP_PORT=6335
       export QDRANT__SERVICE__GRPC_PORT=6336
       export QDRANT__STORAGE__STORAGE_PATH=#{var/"kairos-qdrant/storage"}
       export QDRANT__STORAGE__SNAPSHOTS_PATH=#{var/"kairos-qdrant/snapshots"}
-      exec qdrant "$@"
+      exec "#{libexec}/qdrant" "$@"
     EOS
+    chmod 0755, bin/"kairos-qdrant"
   end
 
   service do

@@ -12,12 +12,13 @@ class KairosOllama < Formula
 
   def install
     # Wrapper script with isolated configuration
-    bin.write_exec_script <<~EOS
+    (bin/"kairos-ollama").write <<~EOS
       #!/bin/bash
       export OLLAMA_HOST=127.0.0.1:11435
       export OLLAMA_MODELS=#{var/"kairos-ollama/models"}
-      exec ollama "$@"
+      exec "#{formula_opt_bin("ollama")}/ollama" "$@"
     EOS
+    chmod 0755, bin/"kairos-ollama"
   end
 
   service do
