@@ -22,7 +22,7 @@ class KairosMcp < Formula
     error_log_path var/"log/kairos-mcp/kairos-mcp.err.log"
     environment_variables \
       QDRANT_URL:  "http://127.0.0.1:6333",
-      SERVER_PORT: "3300"
+      SERVER_PORT: "3000"
   end
 
   def post_install
@@ -36,7 +36,7 @@ class KairosMcp < Formula
         # See: https://github.com/jakub-plichcinski/kairos-mcp
 
         # Server
-        SERVER_PORT=3300
+        SERVER_PORT=3000
         TRANSPORT_TYPE=http
 
         # Qdrant (vector database)
@@ -76,7 +76,7 @@ class KairosMcp < Formula
         kairos serve --transport http --env-file #{etc}/kairos-mcp/.env
 
       Default ports:
-        3300 - HTTP API / MCP endpoint
+        3000 - HTTP API / MCP endpoint
         3302 - Metrics (Prometheus)
     EOS
   end
