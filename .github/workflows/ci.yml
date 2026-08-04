@@ -18,7 +18,9 @@ jobs:
         uses: Homebrew/actions/setup-homebrew@main
 
       - name: Tap this repo
-        run: brew tap-local ${{ github.repository }}
+        run: |
+          mkdir -p "$(brew --repository)/Library/Taps/${{ github.repository_owner }}"
+          ln -s "$GITHUB_WORKSPACE" "$(brew --repository)/Library/Taps/${{ github.repository }}"
 
       - name: Brew style
         run: brew style Formula/
