@@ -5,7 +5,7 @@ class KairosMcp < Formula
   homepage "https://github.com/jakub-plichcinski/kairos-mcp"
   url "https://registry.npmjs.org/@debian777/kairos-mcp/-/kairos-mcp-4.8.3.tgz"
   version "4.8.3"
-  sha256 "c8d3eae160a892e32837db3dcae515e843e5383fef52b8141940c8bcf8b6d59f"
+  sha256 "7083877ca3257095a0037d7b7c5d211add6d47359d85304520b50acf0d90e84e"
   license "MIT"
 
   depends_on "jakub-plichcinski/tap/kairos-ollama"
