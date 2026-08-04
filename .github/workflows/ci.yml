@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Validate formulae
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@main
+
+      - name: Tap this repo
+        run: brew tap-local ${{ github.repository }}
+
+      - name: Brew style
+        run: brew style Formula/
+
+      - name: Brew audit
+        run: |
+          for formula in Formula/*.rb; do
+            name=$(basename "$formula" .rb)
+            brew audit --strict --tap=${{ github.repository }} "$name" || true
+          done
+
+      - name: Brew install and test
+        run: |
+          for formula in Formula/*.rb; do
+            name=$(basename "$formula" .rb)
+            brew install --tap=${{ github.repository }} "$name"
+            brew test --tap=${{ github.repository }} "$name"
+          done
