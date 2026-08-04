@@ -18,6 +18,37 @@ class Qdrant < Formula
     bin.install "qdrant"
   end
 
+  service do
+    run [opt_bin/"qdrant"]
+    keep_alive true
+    working_dir var/"qdrant"
+    log_path var/"log/qdrant/qdrant.log"
+    error_log_path var/"log/qdrant/qdrant.err.log"
+  end
+
+  def caveats
+    <<~EOS
+      Qdrant data is stored in:
+        #{var}/qdrant
+
+      Logs are in:
+        #{var}/log/qdrant
+
+      Default ports:
+        6333 - HTTP REST API
+        6334 - gRPC API
+
+      To start qdrant as a service:
+        brew services start jakub-plichcinski/tap/qdrant
+
+      To stop:
+        brew services stop jakub-plichcinski/tap/qdrant
+
+      Or run manually:
+        qdrant
+    EOS
+  end
+
   test do
     system "#{bin}/qdrant", "--version"
   end
